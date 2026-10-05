@@ -18,6 +18,9 @@
       printErr: function (text) { console.error(text); },
       setStatus: function (text) {
         <!-- document.getElementById("status").textContent = text; -->
+      },
+      onRuntimeInitialized: function() {
+        parent.postMessage('frostbyte:ready', location.origin);
       }
     };
     <!-- function showException(e) { -->

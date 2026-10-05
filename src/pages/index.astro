@@ -1,0 +1,31 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+
+const images = Object.values(
+  import.meta.glob<{ default: ImageMetadata }>('../assets/gallery/*.{png,jpg,jpeg,webp}', { eager: true })
+).map((m) => m.default);
+---
+<Layout title="frostbyte" active="home">
+  <section id="home">
+    <h1>frostbyte</h1>
+    <p>frostbyte is an attempt to make a game engine as close to Roblox as possible (at least from a scripting perspective).</p>
+  </section>
+
+  <section id="gallery">
+    <h2>Gallery</h2>
+    <div class="grid">
+      {images.map((img) => <Image src={img} alt="" width={800} />)}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  section { max-width: 960px; margin: 0 auto; padding: 1.5rem 1rem 0.5rem; }
+  /* keeps the gallery out of the nav highlight zone while at the top of the page */
+  #home { min-height: 50vh; }
+  /* last section fills the viewport so its nav link can scroll/highlight properly */
+  section:last-of-type { min-height: calc(100vh - var(--bar-h)); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(800px, 1fr)); gap: 1rem; }
+  .grid :global(img) { width: 100%; height: auto; border-radius: 8px; }
+</style>

@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+<Layout title="frostbyte demo" active="demo">
+  <div class="demo">
+    <p class="loading">loading...</p>
+    <noscript>
+      <style is:inline>.loading { display: none !important; }</style>
+      <p class="nojs">JavaScript is required to run the demo.</p>
+    </noscript>
+    <iframe src={`${base}/demo-app/index.html`} title="Demo"></iframe>
+  </div>
+</Layout>
+
+<script>
+  // Hide "loading..." once the demo reports that it has started
+  const loading = document.querySelector<HTMLElement>('.loading');
+  const frame = document.querySelector('iframe');
+  window.addEventListener('message', (e) => {
+    if (e.origin !== location.origin || e.source !== frame?.contentWindow) return;
+    if (e.data === 'frostbyte:ready' && loading) loading.style.display = 'none';
+  });
+</script>
+
+<style>
+  .demo { position: relative; height: calc(100vh - var(--bar-h)); }
+  .loading, .nojs { position: absolute; inset: 0; display: grid; place-items: center; margin: 0; font-size: 1.5rem; }
+  iframe { position: relative; display: block; width: 100%; height: 100%; border: 0; }
+</style>
