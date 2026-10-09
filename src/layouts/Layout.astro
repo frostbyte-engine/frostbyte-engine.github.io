@@ -1,8 +1,8 @@
 ---
-interface Props { title: string; active?: 'home' | 'gallery' | 'demo'; }
+interface Props { title: string; active?: 'home' | 'gallery' | 'others' | 'demo'; }
 const { title, active } = Astro.props;
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
-const isHomePage = active !== 'demo';
+const isHomePage = active === 'home' || active === 'gallery';
 ---
 <!doctype html>
 <html lang="en">
@@ -19,6 +19,7 @@ const isHomePage = active !== 'demo';
         <a data-section="gallery" class:list={{ active: active === 'gallery' }} href={`${base}/#gallery`}>Gallery</a>
         <a data-section="demo" class:list={{ active: active === 'demo' }} href={`${base}/demo/`}>Demo</a>
         <a href="https://github.com/frostbyte-engine/" target="_blank" rel="noopener">GitHub</a>
+        <a data-section="others" class:list={{ active: active === 'others' }} href={`${base}/others/`}>Others</a>
       </nav>
       <span class="spacer"></span>
     </header>
